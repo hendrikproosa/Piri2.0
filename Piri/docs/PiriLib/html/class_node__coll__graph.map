@@ -1,0 +1,7 @@
+<map id="Node" name="Node">
+<area shape="rect" id="node8" href="$class_knob_callback.html" title="KnobCallback" alt="" coords="257,277,359,304"/>
+<area shape="rect" id="node10" href="$class_edge.html" title="Edge" alt="" coords="14,277,65,304"/>
+<area shape="rect" id="node3" href="$class_node_graph.html" title="NodeGraph" alt="" coords="350,83,436,109"/>
+<area shape="rect" id="node5" href="$class_main_window.html" title="MainWindow" alt="" coords="451,173,547,200"/>
+<area shape="rect" id="node7" href="$class_op_interface_m_i.html" title="OpInterfaceMI" alt="" coords="5,83,107,109"/>
+</map>

@@ -16,11 +16,21 @@ DEFINES += PIRILIB_LIBRARY
 SOURCES += pirilib.cpp \
     mainwindow.cpp \
     nodegraph.cpp \
-    viewernodegraph.cpp
+    viewernodegraph.cpp \
+    node.cpp \
+    knobcallback.cpp \
+    op.cpp \
+    edge.cpp
+
 
 HEADERS += pirilib.h\
         pirilib_global.h \
     mainwindow.h \
     nodegraph.h \
     viewernodegraph.h \
-    interfaces.h
+    interfaces.h \
+    node.h \
+    knobcallback.h \
+    op.h \
+    edge.h
+

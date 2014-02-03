@@ -1,0 +1,5 @@
+<map id="MainWindow::registerOp" name="MainWindow::registerOp">
+<area shape="rect" id="node2" href="$class_main_window.html#a150054b7e0f06b55eb2640adbd3d7cb9" title="Casts plugins to OpInterfaces and calls registerOp() " alt="" coords="219,5,411,32"/>
+<area shape="rect" id="node3" href="$class_main_window.html#ad63ce417061edc862704eb68e7a7a2d2" title="Loads DLL plugins. " alt="" coords="459,5,629,32"/>
+<area shape="rect" id="node4" href="$class_main_window.html#a34c4b4207b46d11a4100c9b19f0e81bb" title="MainWindow initializer. " alt="" coords="677,5,856,32"/>
+</map>

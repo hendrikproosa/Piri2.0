@@ -6,8 +6,11 @@
 #include <QStandardItemModel>
 
 #include "pirilib.h"
+#include "interfaces.h"
 
 class MainWindow;
+class Node;
+class Edge;
 
 class PIRILIBSHARED_EXPORT NodeGraph : public QGraphicsScene
 {
@@ -16,9 +19,34 @@ class PIRILIBSHARED_EXPORT NodeGraph : public QGraphicsScene
 public:
     NodeGraph(MainWindow *parent = 0);
     MainWindow* getParent();
+    int getMode();
+    void setMode(int mode);
+
+    QGraphicsItem* pushItem(QGraphicsItem *item, QPointF pos);
+    Edge* addEdge(Edge *edge);
+
+    void evaluate();
+    QList<Node *> evaluateNode(Node* node);
+    void pushNodeEdgesToStack(Node *node);
+    QList<Node *> reverseStack(QList<Node *> stack);
+    int nodeVisited(Node* node);
+
+    void setSelectedNode();
+    Node* getSelectedNode();
+
+
+public slots:
+    void addOp(OpInterfaceMI *OpMI);
 
 private:
     MainWindow *myParent; /*!< Nodegraph parent object. */
+    int myMode;
+
+    QList<Node *> nodeList; /*!< List of all nodes in nodegraph. */
+    QList<Node *> nodeStack; /*!< List of nodes. */
+    QList<Node *> evalStack; /*!< List of nodes sorted by execution order. */
+    QList<Node *> visitStack; /*!< List of nodes visited. */
+    Node* contextSelectedNode;
 };
 
 #endif // NODEGRAPH_H

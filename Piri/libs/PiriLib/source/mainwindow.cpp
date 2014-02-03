@@ -18,6 +18,8 @@
  */
 MainWindow::MainWindow()
 {
+    contextMenuPos = QPointF(0.0, 0.0);
+
     qDebug() << "MainWindow init start...";
 
     qDebug() << "MainWindow nodegraph...";
@@ -38,6 +40,9 @@ MainWindow::MainWindow()
     qDebug() << "MainWindow load plugins...";
     loadPlugins();
 
+    qDebug() << "Create message log...";
+    createMessageLog();
+
     QDate date = QDate::currentDate();
     QTime time = QTime::currentTime();
     QString timeString = date.toString("dd.MM.yyyy") + " " + time.toString();
@@ -46,11 +51,72 @@ MainWindow::MainWindow()
 }
 
 
+/*!
+ * \brief Show message on statusbar
+ * \param message String to show
+ */
 void MainWindow::showStatusMessage(QString message)
 {
     statusBar()->showMessage(message);
 }
 
+
+/*!
+ * \brief Get nodegraph context menu
+ * \return Node graph menu QMenu
+ */
+QMenu* MainWindow::getNodeMenu()
+{
+    return nodeMenu;
+}
+
+/*!
+ * \brief Get last nodegraph contextmenu position in DAG scene coords
+ * \return Position as QPointF in scene coords
+ */
+QPointF MainWindow::getContextMenuPos()
+{
+    return contextMenuPos;
+}
+
+
+/*!
+ * \brief Set last nodegraph contextmenu position in DAG scene coords
+ * \param pos Position as QPointF
+ */
+void MainWindow::setContextMenuPos(QPointF pos)
+{
+    contextMenuPos = pos;
+}
+
+
+/*!
+ * \brief Get main properties view.
+ * @see createDockWindows()
+ * \return Main properties view 'propView'
+ */
+QWidget* MainWindow::getPropView()
+{
+    if (propView)
+        return propView;
+    return 0;
+}
+
+/*!
+ * \brief Get main properties view layout.
+ * @see createDockWindows()
+ * @see getPropView()
+ * \return Main properties view layout.
+ */
+QLayout* MainWindow::getPropViewLayout()
+{
+    if (propView)
+    {
+        if (propView->layout())
+            return propView->layout();
+    }
+    return 0;
+}
 
 /*!
  * \brief Creates main application actions.
@@ -59,6 +125,7 @@ void MainWindow::showStatusMessage(QString message)
  * @see createMenus()
  * @see close()
  * @see about()
+ * @see showMessageLog()
  */
 void MainWindow::createActions()
 {
@@ -71,6 +138,10 @@ void MainWindow::createActions()
     aboutAct->setShortcuts(QKeySequence::HelpContents);
     aboutAct->setStatusTip(tr("Show the About box"));
     connect(aboutAct, SIGNAL(triggered()), this, SLOT(about()));
+
+    messageLogAct = new QAction(tr("&Message Log"), this);
+    messageLogAct->setStatusTip(tr("Show message log"));
+    connect(messageLogAct, SIGNAL(triggered()), this, SLOT(showMessageLog()));
 }
 
 
@@ -103,6 +174,85 @@ void MainWindow::close()
     qApp->exit();
 }
 
+/*!
+ * \brief Add message to messagelog
+ * \param message String
+ */
+void MainWindow::logMessage(QString message)
+{
+    messageLog.append(message);
+    MessageLogText->setText(stringListToString(messageLog));
+}
+
+/*!
+ * \brief Trigger DAG contextmenu items by name.
+ *
+ * Useful for calling nodes based on their names.
+ * \param name
+ */
+void MainWindow::triggerMenuByName(QString name)
+{
+    foreach (QAction *subMenu, nodeMenu->actions())
+    {
+        foreach (QAction *action, subMenu->menu()->actions())
+        {
+            if (action->text() == name)
+                action->trigger();
+        }
+    }
+}
+
+
+/*!
+ * \brief Converts stringlist to multi-line string
+ * \param stringList List to convert
+ * \return QString with generated string
+ */
+QString MainWindow::stringListToString(QStringList stringList)
+{
+    QString result;
+    foreach (QString s, stringList)
+    {
+        result += s + "\n";
+    }
+    return result;
+}
+
+/*!
+ * \brief Creates program message log
+ */
+void MainWindow::createMessageLog()
+{
+    messageLogWidget = new QWidget();
+    MessageLogText = new QTextEdit(messageLogWidget);
+    MessageLogText->setText(stringListToString(messageLog));
+    MessageLogText->resize(400, 250);
+    messageLogWidget->resize(400, 250);
+}
+
+/*!
+ * \brief Shows program message log
+ */
+void MainWindow::showMessageLog()
+{
+    messageLogWidget->show();
+}
+
+/*!
+ * \brief Adds new Op to nodegraph.
+ * Adds new Op to main nodegraph. At first it casts the sender object to QAction,
+ * then casts QAction parent to OpInterfaceMI and calls mainGraph->addOp(Op).
+ * @see nodeGraph::addOp()
+ */
+void MainWindow::addOp()
+{
+    logMessage("MainWindow::addOp");
+    QAction *action = qobject_cast<QAction *>(sender());
+    OpInterfaceMI *OpMI = qobject_cast<OpInterfaceMI *>(action->parent());
+    nodeGraph->addOp(OpMI);
+    messageLog.append("Op Added!");
+}
+
 
 /*!
  * \brief Creates main menubar and nodegraph popup menu.
@@ -121,6 +271,41 @@ void MainWindow::createMenus()
 
     helpMenu = menuBar()->addMenu(tr("&Help"));
     helpMenu->addAction(aboutAct);
+    helpMenu->addAction(messageLogAct);
+
+    // Nodegraph popup menu.
+    nodeMenu = new QMenu;
+
+    QStringList menulist;
+    menulist << "File"
+             << "Edit"
+             << "Input"
+             << "Output"
+             << "Create"
+             << "Transform"
+             << "Query"
+             << "Merge"
+             << "MetaData"
+             << "Viewer"
+             << "Other";
+
+    foreach(QString s, menulist)
+    {
+        addNodeMenuItem(s);
+    }
+}
+
+
+/*!
+ * \brief Adds new class to node menu. Not used?
+ * \param s Menu item name.
+ * @see createMenus()
+ */
+void MainWindow::addNodeMenuItem(QString menuItemName)
+{
+    QMenu *menu = new QMenu(menuItemName);
+    nodeMenu->addMenu(menu);
+    menuClasses.append(menu);
 }
 
 
@@ -167,8 +352,8 @@ void MainWindow::createDockWindows()
     dockPropertiesArea->setMinimumWidth(400);
     dockPropertiesArea->setMinimumHeight(200);
     dockPropertiesArea->setMaximumWidth(600);
-    QWidget* propertiesProxyWidget = new QWidget();
-    //propView = new QWidget;
+    QWidget* propertiesWidget = new QWidget();
+    propView = propertiesWidget;
 
     QVBoxLayout *propertiesLayout = new QVBoxLayout;
     propertiesLayout->setAlignment(Qt::AlignTop);
@@ -176,11 +361,11 @@ void MainWindow::createDockWindows()
     propertiesLayout->setSpacing(0);
     propertiesLayout->setSizeConstraint(QLayout::SetMinimumSize);
     propertiesLayout->setDirection(QBoxLayout::BottomToTop);
-    propertiesProxyWidget->setLayout(propertiesLayout);
+    propertiesWidget->setLayout(propertiesLayout);
 
     QScrollArea* propertiesScrollArea = new QScrollArea(this);
     propertiesScrollArea->setWidgetResizable(true);
-    propertiesScrollArea->setWidget(propertiesProxyWidget);
+    propertiesScrollArea->setWidget(propertiesWidget);
 
     dockPropertiesArea->setWidget(propertiesScrollArea);
     addDockWidget(Qt::RightDockWidgetArea, dockPropertiesArea);
@@ -197,6 +382,21 @@ void MainWindow::createDockWindows()
     addDockWidget(Qt::RightDockWidgetArea, dockNodeGraphArea);
 
     this->setDockNestingEnabled(true);
+
+    // Second Nodegraph view
+    /*
+    QDockWidget* dockNodeGraphArea2;
+    dockNodeGraphArea2 = new QDockWidget(tr("Nodegraph2"), this);
+    dockNodeGraphArea2->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    dockNodeGraphArea2->setMinimumWidth(300);
+    dockNodeGraphArea2->setMinimumHeight(200);
+
+    ViewerNodeGraph *viewerNodeGraph2 = new ViewerNodeGraph(nodeGraph, this);
+    dockNodeGraphArea2->setWidget(viewerNodeGraph2);
+
+    splitDockWidget(dockViewerArea, dockNodeGraphArea2, Qt::Horizontal);
+    */
+
 }
 
 
@@ -250,6 +450,9 @@ void MainWindow::loadPlugins()
     }
     //qDebug() << "Loaded plugins: " << pluginFileNames;
     showStatusMessage("Plugins loaded: " + pluginFileNames);
+
+    messageLog.append("Loaded plugins:");
+    messageLog.append(pluginFileNames);
 }
 
 
@@ -267,6 +470,57 @@ void MainWindow::populateMenus(QObject *plugin)
     OpInterfaceMI *OpMI = qobject_cast<OpInterfaceMI *>(plugin);
     if (OpMI)
     {
-        //registerOp(plugin, OpMI->description(), SLOT(addOp()));
+        registerOp(plugin, OpMI->description(), SLOT(addOp()));
     }
+}
+
+
+/*!
+ * \brief Registers loaded plugin to system.
+ *
+ * Splits description of loaded plugin into class, name and description.
+ * Creates new QAction and ties it with menu entry and addOp() function
+ * for adding new node to graph.
+ * Adds new menu class if necessary and new entry for loaded operation.
+ * \param plugin Plugin to be registered.
+ * \param text Plugin desctiption from Op->description().
+ * \param member addOp() function to be tied into signal-slot mechanism.
+ * @see loadPlugins()
+ * @see populateMenus()
+ */
+void MainWindow::registerOp(QObject *plugin, const QString text, const char *member)
+{
+    QString opName, menuName;
+    opName = text.split(";").first();
+    opName = opName.split("/").last();
+    menuName = text.split(";").first();
+    menuName = menuName.split("/").first();
+
+    QAction *action = new QAction(opName, plugin);
+    connect(action, SIGNAL(triggered()), this, member);
+
+    // Otsime, kas vastav menüü on olemas ja kui pole, siis loome selle
+    int exists = 0;
+    foreach (QMenu *m, menuClasses)
+    {
+        if (m->title() == menuName)
+            exists = 1;
+    }
+
+    if (!exists)
+    {
+        QMenu *menu = new QMenu(menuName);
+        nodeMenu->addMenu(menu);
+        menuClasses.append(menu);
+    }
+
+    foreach (QMenu *m, menuClasses)
+    {
+        if (m->title() == menuName)
+            m->addAction(action);
+    }
+
+    messageLog.append("New plugin:");
+    messageLog.append(opName);
+    messageLog.append(menuName);
 }

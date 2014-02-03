@@ -1,0 +1,8 @@
+<map id="Op" name="Op">
+<area shape="rect" id="node2" href="$class_node.html" title="Node" alt="" coords="199,173,251,200"/>
+<area shape="rect" id="node9" href="$class_knob_callback.html" title="KnobCallback" alt="" coords="361,277,463,304"/>
+<area shape="rect" id="node11" href="$class_edge.html" title="Edge" alt="" coords="235,277,287,304"/>
+<area shape="rect" id="node4" href="$class_node_graph.html" title="NodeGraph" alt="" coords="473,83,559,109"/>
+<area shape="rect" id="node6" href="$class_main_window.html" title="MainWindow" alt="" coords="604,173,700,200"/>
+<area shape="rect" id="node8" href="$class_op_interface_m_i.html" title="OpInterfaceMI" alt="" coords="5,83,107,109"/>
+</map>

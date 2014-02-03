@@ -1,0 +1,4 @@
+<map id="ViewerNodeGraph::contextMenuEvent" name="ViewerNodeGraph::contextMenuEvent">
+<area shape="rect" id="node2" href="$class_main_window.html#a5015ce7eea39f50f47f22ea5393472fa" title="Set last nodegraph contextmenu position in DAG scene coords. " alt="" coords="233,5,455,32"/>
+<area shape="rect" id="node3" href="$class_main_window.html#acfb5c04a02fdb95aef91913cf10e4644" title="Get nodegraph context menu. " alt="" coords="252,56,436,83"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="MainWindow::logMessage" name="MainWindow::logMessage">
+<area shape="rect" id="node2" href="$class_knob_callback.html#af27b85e27e6ade6c919510b6efac30ab" title="Show error on statusbar and add it to messagelog. " alt="" coords="229,5,397,32"/>
+<area shape="rect" id="node3" href="$class_node_graph.html#aba8946821e24df0e224cd5d6dbd94810" title="Evaluate node graph. " alt="" coords="242,56,385,83"/>
+<area shape="rect" id="node4" href="$class_knob_callback.html#a7a68c85e99eee8b5bc84211a10b2fb17" title="Called when knob value is changed. Calls evaluate on nodegraph. " alt="" coords="446,56,637,83"/>
+</map>

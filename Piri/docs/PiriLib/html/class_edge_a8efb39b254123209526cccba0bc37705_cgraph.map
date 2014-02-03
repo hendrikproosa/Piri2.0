@@ -1,0 +1,5 @@
+<map id="Edge::disconnect" name="Edge::disconnect">
+<area shape="rect" id="node2" href="$class_node.html#a28741cff4abc73ba167bcd935ef00add" title="Node::getName" alt="" coords="176,5,288,32"/>
+<area shape="rect" id="node3" href="$class_edge.html#ab554a765fd7a57fcdf289aa51b4df328" title="Edge::adjust" alt="" coords="185,56,279,83"/>
+<area shape="rect" id="node4" href="$class_edge.html#a1715832a609af81720fbed8340ddcd51" title="Edge::boundingRect" alt="" coords="336,56,475,83"/>
+</map>

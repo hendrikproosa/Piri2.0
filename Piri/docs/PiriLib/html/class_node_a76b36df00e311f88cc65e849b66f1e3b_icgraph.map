@@ -1,0 +1,5 @@
+<map id="Node::setName" name="Node::setName">
+<area shape="rect" id="node2" href="$class_knob_callback.html#ab8deeebbbdb89ee65c46de4d73643d7e" title="Called when node name is changed in callback. " alt="" coords="166,5,389,32"/>
+<area shape="rect" id="node3" href="$class_knob_callback.html#a21096f77e998a37fee220f22beb61faa" title="KnobCallback::makeKnobs" alt="" coords="437,5,616,32"/>
+<area shape="rect" id="node4" href="$class_knob_callback.html#a3503e5fd07df71f77b4552ad077e36a5" title="KnobCallback::KnobCallback" alt="" coords="665,5,855,32"/>
+</map>

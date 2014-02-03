@@ -1,0 +1,7 @@
+<map id="classTypeToInt" name="classTypeToInt">
+<area shape="rect" id="node2" href="$class_node.html#a7780d0fe2155045286ae499acba274de" title="Overrides bounding rectangle. " alt="" coords="163,56,301,83"/>
+<area shape="rect" id="node5" href="$class_node.html#a8c9fa085afed2aa17c5d49dfe4ea3231" title="Overrides node shape. " alt="" coords="185,5,279,32"/>
+<area shape="rect" id="node6" href="$class_node.html#a63d46898bc8e4da1d1d92f7f4603ba1e" title="Node painting operation. " alt="" coords="188,107,276,133"/>
+<area shape="rect" id="node3" href="$class_edge.html#a6fb73701d0e4739f569e1ea0eb4c36fa" title="Edge::paint" alt="" coords="356,5,444,32"/>
+<area shape="rect" id="node4" href="$class_node.html#a053bc67d7bb8c9f17d45941e1e251f34" title="Sets node as disabled. " alt="" coords="349,56,451,83"/>
+</map>

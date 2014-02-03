@@ -4,6 +4,7 @@
 #include <QtPlugin>
 
 #include "pirilib.h"
+#include "knobcallback.h"
 
 QT_BEGIN_NAMESPACE
 class QString;
@@ -16,10 +17,8 @@ class PIRILIBSHARED_EXPORT OpInterfaceMI
 public:
     virtual ~OpInterfaceMI() {}
     virtual QString engine() = 0;
-    //virtual void knobs(Knob_Callback* f) = 0;
-    virtual void knobs() = 0;
+    virtual void knobs(KnobCallback* f) = 0;
     virtual QString description() = 0;
-
 };
 
 QT_BEGIN_NAMESPACE

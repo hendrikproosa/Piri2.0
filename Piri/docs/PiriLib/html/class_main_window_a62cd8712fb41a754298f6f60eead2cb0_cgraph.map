@@ -1,0 +1,6 @@
+<map id="MainWindow::createActions" name="MainWindow::createActions">
+<area shape="rect" id="node2" href="$class_main_window.html#a6ce4eb489a32f1a18c306b99e0cbb82e" title="MainWindow close action. " alt="" coords="274,5,409,32"/>
+<area shape="rect" id="node3" href="$class_main_window.html#a7be6a5d98970ac1a6296c6f9aee1e9bb" title="MainWindow about action. " alt="" coords="273,56,409,83"/>
+<area shape="rect" id="node4" href="$class_main_window.html#a22f635fe668c86efcb02402116622f37" title="Shows program message log. " alt="" coords="237,107,445,133"/>
+<area shape="rect" id="node5" href="$mainwindow_8cpp.html#a2c290838af9c0702f5465b4f2ea10a4f" title="Converts stringlist to multi&#45;line string. " alt="" coords="493,107,616,133"/>
+</map>

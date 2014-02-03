@@ -1,0 +1,10 @@
+<map id="MainWindow::loadPlugins" name="MainWindow::loadPlugins">
+<area shape="rect" id="node2" href="$class_main_window.html#a150054b7e0f06b55eb2640adbd3d7cb9" title="Casts plugins to OpInterfaces and calls registerOp() " alt="" coords="241,56,433,83"/>
+<area shape="rect" id="node9" href="$class_main_window.html#a41669edd28f67fe3e9f5fdc71fe453a6" title="Show message on statusbar. " alt="" coords="225,107,450,133"/>
+<area shape="rect" id="node3" href="$class_main_window.html#ac185075c143d60340513e2f77365ba5a" title="Registers loaded plugin to system. " alt="" coords="499,5,663,32"/>
+<area shape="rect" id="node4" href="$class_op_interface_m_i.html#a98b900e888a6699e159c34b258efef94" title="OpInterfaceMI::description" alt="" coords="919,56,1092,83"/>
+<area shape="rect" id="node5" href="$class_main_window.html#a4794eaad406f40093c06569cd556480d" title="Adds new Op to nodegraph. Adds new Op to main nodegraph. At first it casts the sender object to QActi..." alt="" coords="510,107,653,133"/>
+<area shape="rect" id="node6" href="$class_node_graph.html#a2ce34c71b4e0e65082b61aa085921543" title="Add new op to DAG. " alt="" coords="712,107,845,133"/>
+<area shape="rect" id="node7" href="$class_node_graph.html#a5a4c0784e931e1ce60094693c7f31144" title="Pushes item to nodegraph at certain position. " alt="" coords="931,107,1079,133"/>
+<area shape="rect" id="node8" href="$class_main_window.html#aa893abb198c3b19ce2b754c33be52847" title="Get last nodegraph contextmenu position in DAG scene coords. " alt="" coords="894,157,1117,184"/>
+</map>

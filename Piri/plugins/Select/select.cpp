@@ -1,10 +1,5 @@
 #include "select.h"
 
-#include <QtDebug>
-#include <QStandardItemModel>
-#include <QTableView>
-#include <QList>
-
 void Select::setup()
 {
     rowFrom = 1;
@@ -13,19 +8,16 @@ void Select::setup()
     colTo = 5;
 }
 
-
 QString Select::description()
 {
     setup();
     return QString("Query/Select;Simple select./1");
 }
 
-
-void Select::knobs()
+void Select::knobs(KnobCallback* f)
 {
 
 }
-
 
 QString Select::engine()
 {
