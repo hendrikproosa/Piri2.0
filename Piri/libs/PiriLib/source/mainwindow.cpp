@@ -46,7 +46,8 @@ MainWindow::MainWindow()
     QDate date = QDate::currentDate();
     QTime time = QTime::currentTime();
     QString timeString = date.toString("dd.MM.yyyy") + " " + time.toString();
-    setWindowTitle("Piri v.02 - " + timeString);
+    //setWindowTitle("Piri v.02 - " + timeString);
+    setWindowTitle("Piri v.02");
     qDebug() << "MainWindow initialized!";
 }
 
@@ -119,6 +120,19 @@ QLayout* MainWindow::getPropViewLayout()
 }
 
 /*!
+ * \brief Get main viewer.
+ * @see createDockWindows()
+ * @see viewerView
+ * \return Main viewer area 'viewerView'
+ */
+QWidget* MainWindow::getViewer()
+{
+    if (viewerView)
+        return viewerView;
+    return 0;
+}
+
+/*!
  * \brief Creates main application actions.
  *
  * Creates main application actions.
@@ -182,7 +196,48 @@ void MainWindow::logMessage(QString message)
 {
     messageLog.append(message);
     MessageLogText->setText(stringListToString(messageLog));
+    MessageLogText->verticalScrollBar()->setValue(MessageLogText->verticalScrollBar()->maximum());
 }
+/*!
+ * \brief Add message to messagelog
+ * \param message StringList
+ */
+void MainWindow::logMessage(QStringList message)
+{
+    messageLog.append(message);
+    MessageLogText->setText(stringListToString(messageLog));
+    MessageLogText->verticalScrollBar()->setValue(MessageLogText->verticalScrollBar()->maximum());
+}
+
+/*!
+ * \brief Append command to commandlist.
+ *
+ * Adds new commands from node ops to commandlist.
+ * \param command Command as QString
+ */
+void MainWindow::appendCommand(QString command)
+{
+    commandList.append(command);
+}
+
+/*!
+ * \brief Get command list.
+ * \return List of commands as QStringList
+ */
+QStringList MainWindow::getCommandList()
+{
+    return commandList;
+}
+
+/*!
+ * \brief Get command list.
+ * \return List of commands as QStringList
+ */
+void MainWindow::clearCommandList()
+{
+    commandList.clear();
+}
+
 
 /*!
  * \brief Trigger DAG contextmenu items by name.
@@ -340,8 +395,9 @@ void MainWindow::createDockWindows()
     myViewer = viewer;
     dock->setWidget(viewer);
     */
-    QWidget* viewerProxyWidget = new QWidget(this);
-    dockViewerArea->setWidget(viewerProxyWidget);
+    //QWidget* viewerProxyWidget = new QWidget(this);
+    viewerView = new QWidget(this);
+    dockViewerArea->setWidget(viewerView);
 
     addDockWidget(Qt::LeftDockWidgetArea, dockViewerArea);
 
@@ -449,7 +505,7 @@ void MainWindow::loadPlugins()
         }
     }
     //qDebug() << "Loaded plugins: " << pluginFileNames;
-    showStatusMessage("Plugins loaded: " + pluginFileNames);
+    //showStatusMessage("Plugins loaded: " + pluginFileNames);
 
     messageLog.append("Loaded plugins:");
     messageLog.append(pluginFileNames);

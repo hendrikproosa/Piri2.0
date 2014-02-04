@@ -121,7 +121,6 @@ void ViewerNodeGraph::disableSelected()
  */
 void ViewerNodeGraph::contextMenuEvent(QContextMenuEvent *event)
 {
-    myParent->logMessage("ContextMenuEvent");
     myNodeGraph->setSelectedNode();
     QPointF contextMenuPos;
     contextMenuPos = mapToScene(mapFromGlobal(event->globalPos()));
@@ -142,8 +141,7 @@ void ViewerNodeGraph::keyPressEvent(QKeyEvent *event)
         {
             Node* n = qgraphicsitem_cast<Node*>(scene()->selectedItems().first());
             if (n)
-                //connectViewer(n, 1);
-                ;
+                myNodeGraph->connectViewer(n, 1);
         }
         break;
 
@@ -153,8 +151,10 @@ void ViewerNodeGraph::keyPressEvent(QKeyEvent *event)
     case Qt::Key_D:
         disableSelected();
         break;
+    case Qt::Key_M:
+
+        break;
     case Qt::Key_Delete:
-        /*
         foreach (QGraphicsItem *i, scene()->selectedItems()) {
             if (qgraphicsitem_cast<Node *>(i)) {
                 delList << qgraphicsitem_cast<Node *>(i);
@@ -164,12 +164,11 @@ void ViewerNodeGraph::keyPressEvent(QKeyEvent *event)
             }
         }
         foreach (Node* n, delList) {
-            if (n == activeViewer) { activeViewer = 0; }
-            removeNode(n);
+            if (n == myNodeGraph->getActiveViewer()) { myNodeGraph->setActiveViewer(0); }
+            myNodeGraph->removeNode(n);
             delete n;
         }
         evaluate();
-        */
         break;
     default:
         QGraphicsView::keyPressEvent(event);
@@ -202,7 +201,6 @@ void ViewerNodeGraph::keyReleaseEvent(QKeyEvent *event)
  */
 void ViewerNodeGraph::mousePressEvent(QMouseEvent *event)
 {
-    myParent->logMessage("Mousepressevent");
     _lastPos = event->pos();
     if (event->buttons().testFlag(Qt::MiddleButton))
     {
@@ -272,11 +270,25 @@ void ViewerNodeGraph::mousePressEvent(QMouseEvent *event)
 
         // Create new dot node
         case DAG_MODE_BREAKEDGE:
+            setMode(DAG_MODE_PAN);
+            Node* activeEdgeSource;
+            activeEdgeSource = activeEdge->sourceNode();
             myParent->triggerMenuByName("Dot");
             // Move dot to position under mouse.
-            // Conveniently it also connects all edges :)
+            Node *node;
             if (scene()->selectedItems().count() == 1)
+            {
+                node = qgraphicsitem_cast<Node *>(scene()->selectedItems().first());
                 scene()->selectedItems().first()->setPos(mapToScene(event->pos()));
+                if (node)
+                {
+                    node->getMainEdge()->setSourceNode(activeEdgeSource);
+                    activeEdge->disconnect();
+                    activeEdge->setSourceNode(node);
+                    activeEdge->adjust();
+                    //node->setSelected(true);
+                }
+            }
             break;
     default:
         ;
@@ -443,7 +455,6 @@ void ViewerNodeGraph::mouseMoveEvent(QMouseEvent *event)
  */
 void ViewerNodeGraph::mouseReleaseEvent(QMouseEvent *event)
 {
-    myParent->logMessage("MouseReleaseEvent");
     // If we are panning around...
     if (getMode() == DAG_MODE_PAN)
     {
@@ -466,7 +477,7 @@ void ViewerNodeGraph::mouseReleaseEvent(QMouseEvent *event)
                         e->setSourceNode(nd);
                         e->hovered = false;
                         e->adjust();
-                        //evaluate();
+                        evaluate();
                     }
                 }
             }
@@ -507,7 +518,7 @@ void ViewerNodeGraph::mouseReleaseEvent(QMouseEvent *event)
         if (startItems.count() == 0) {
             line = 0;
             activeEdge = 0;
-            //evaluate();
+            evaluate();
             return;
         }
 

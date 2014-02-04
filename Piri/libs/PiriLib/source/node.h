@@ -57,7 +57,7 @@ public:
     void disable(bool val);
     bool isDisabled();
 
-    //QString getHash();
+    QString getHash();
 
 
 protected:

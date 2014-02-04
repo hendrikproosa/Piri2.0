@@ -2,6 +2,7 @@
 #include "node.h"
 #include "nodegraph.h"
 #include "mainwindow.h"
+#include "knobs.h"
 
 #include <QtDebug>
 
@@ -139,13 +140,13 @@ QString KnobCallback::getHash()
     QString hashString;
     foreach (KnobStruct *ks, knobs) {
         QWidget* w = ks->widget;
-        /*
+
         KnobBase* kb = dynamic_cast<KnobBase*>(w);
         if (kb)
         {
             hashString += kb->getHash();
         }
-        */
+
     }
     myHash = QString(QCryptographicHash::hash(hashString.toLatin1(),QCryptographicHash::Md5).toHex());
     return myHash;

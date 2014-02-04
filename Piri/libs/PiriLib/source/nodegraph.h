@@ -11,6 +11,7 @@
 class MainWindow;
 class Node;
 class Edge;
+class MIConnect;
 
 class PIRILIBSHARED_EXPORT NodeGraph : public QGraphicsScene
 {
@@ -34,6 +35,17 @@ public:
     void setSelectedNode();
     Node* getSelectedNode();
 
+    void removeEdge(Edge *edge);
+    void removeNode(Node *node);
+
+    // Methods dealing with viewers
+    void setActiveViewer(Node* node);
+    Node* getActiveViewer();
+    void connectViewer(Node* node, int socket);
+    void updateViewer();
+
+    // Graph execution method
+    void execute();
 
 public slots:
     void addOp(OpInterfaceMI *OpMI);
@@ -47,6 +59,9 @@ private:
     QList<Node *> evalStack; /*!< List of nodes sorted by execution order. */
     QList<Node *> visitStack; /*!< List of nodes visited. */
     Node* contextSelectedNode;
+
+    Node* activeViewer; /*! Active viewer node, that starts execution */
+    MIConnect* miConnect; /*! Mapinfo connection object */
 };
 
 #endif // NODEGRAPH_H

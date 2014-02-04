@@ -33,7 +33,13 @@ public:
     QWidget* getPropView();
     QLayout* getPropViewLayout();
 
+    QWidget* getViewer();
+
     void logMessage(QString message);
+    void logMessage(QStringList message);
+    void appendCommand(QString command);
+    QStringList getCommandList();
+    void clearCommandList();
 
     void triggerMenuByName(QString name);
 
@@ -75,8 +81,10 @@ private:
     NodeGraph *nodeGraph;
 
     QWidget *propView; /*!< Dockable properties subwindow. */
+    QWidget *viewerView; /*!< Dockable viewer area */
 
     QStringList messageLog;
+    QStringList commandList; /*!< List that holds commands from node execute methods */
 };
 
 #endif // MAINWINDOW_H

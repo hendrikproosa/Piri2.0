@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui axcontainer
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +20,9 @@ SOURCES += pirilib.cpp \
     node.cpp \
     knobcallback.cpp \
     op.cpp \
-    edge.cpp
+    edge.cpp \
+    miconnect.cpp \
+    knobs.cpp
 
 
 HEADERS += pirilib.h\
@@ -32,5 +34,7 @@ HEADERS += pirilib.h\
     node.h \
     knobcallback.h \
     op.h \
-    edge.h
+    edge.h \
+    miconnect.h \
+    knobs.h
 

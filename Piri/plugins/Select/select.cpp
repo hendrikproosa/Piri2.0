@@ -1,4 +1,6 @@
 #include "select.h"
+#include "node.h"
+#include "edge.h"
 
 void Select::setup()
 {
@@ -21,8 +23,9 @@ void Select::knobs(KnobCallback* f)
 
 QString Select::engine()
 {
+    if (!getInput(0))
+        return " ";
     QString command;
-    command = "Select node command!";
-
+    command = "Select * from _" + getInput(0)->getHash() + " into _" + getHash();
     return command;
 }

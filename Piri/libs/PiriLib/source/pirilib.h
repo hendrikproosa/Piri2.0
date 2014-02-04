@@ -2,6 +2,8 @@
 #define PIRILIB_H
 
 #include "pirilib_global.h"
+#include "node.h"
+#include "edge.h"
 
 #define DAG_MODE_PAN        0
 #define DAG_MODE_SELECT     1
@@ -41,5 +43,7 @@ class PIRILIBSHARED_EXPORT PiriLib
 public:
     PiriLib();
 };
+
+QString generateHash(QString hashBase);
 
 #endif // PIRILIB_H

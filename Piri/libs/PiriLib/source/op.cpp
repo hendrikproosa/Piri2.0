@@ -99,3 +99,26 @@ QWidget* Op::getKnob(QString knobName)
 {
     return myCallback->getKnob(knobName)->widget;
 }
+
+/*!
+ * \brief Get hash of op parent node
+ * \return Hash as string.
+ */
+QString Op::getHash()
+{
+    return myCallback->getParent()->getHash();
+}
+
+/*!
+ * \brief Get hash of op parent node
+ * \return Hash as string.
+ */
+Node* Op::getInput(int order)
+{
+    Node* r;
+    //r = myCallback->getParent()->edgesIn().first()->sourceNode();
+    r = myCallback->getParent()->edgesIn().at(order)->sourceNode();
+    if (r)
+        return r;
+    return 0;
+}

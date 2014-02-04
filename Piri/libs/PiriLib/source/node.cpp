@@ -53,17 +53,42 @@ Node::Node(NodeGraph *nodeGraph, QString name, OpInterfaceMI *op)
  */
 void Node::execute()
 {
-    if ((edges().count() == edgesOut().count()) || edgesIn().count() > 0)
-    {
+    //if ((edges().count() == edgesOut().count()) || edgesIn().count() > 0)
+    //{
         if (!isDisabled())
         {
             //nodeHash = getHash();
-            myOp->engine();
+            //myOp->engine();
+            foreach (Edge* e, edgesIn())
+            {
+                e->sourceNode()->execute();
+            }
+            myParent->getParent()->appendCommand(myOp->engine());
         } else {
             Op *op = dynamic_cast<Op*>(myOp);
             op->disabled();
         }
+    //}
+}
+
+/*!
+ * \brief Calculate node hash.
+ *
+ * Node hash is based on the hash of knob callback and hashes of
+ * all nodes above this one. If something changes up in node tree,
+ * hash also changes.
+ * \return
+ */
+QString Node::getHash()
+{
+    QString hashString;
+    foreach (Edge* e, edgesIn())
+    {
+        hashString += e->sourceNode()->getHash();
     }
+    hashString += myCallback->getHash();
+    hashString = generateHash(hashString);
+    return hashString;
 }
 
 
@@ -137,7 +162,8 @@ void Node::makeCallback()
         myOp->knobs(myCallback);
         op->setCallback(myCallback);
     }
-    myParent->getParent()->getPropViewLayout()->addWidget(myCallback);
+    if (myName != "Dot")
+        myParent->getParent()->getPropViewLayout()->addWidget(myCallback);
 }
 
 
@@ -474,7 +500,7 @@ void Node::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     makeCallback();
     if (myCallback)
     {
-        if (myCallback->isHidden())
+        if (myCallback->isHidden() && myName != "Dot")
             myCallback->show();
     }
 }

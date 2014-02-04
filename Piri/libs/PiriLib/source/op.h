@@ -23,6 +23,8 @@ public:
     QList<Node*> getInputNodes();
     void setParent(Node* node);
 
+    QString getHash();
+    Node* getInput(int order);
 
 protected:
     QString myName;

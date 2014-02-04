@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "node.h"
 #include "edge.h"
+#include "miconnect.h"
 
 #include <QtWidgets>
 
@@ -21,6 +22,13 @@ NodeGraph::NodeGraph(MainWindow *parent)
     setSceneRect(-10000, -10000, 20000, 20000);
     contextSelectedNode = 0;
     myMode = DAG_MODE_PAN;
+    activeViewer = 0;
+    //nodeStack = 0;
+    //nodeList = 0;
+    //evalStack = 0;
+    //visitStack = 0;
+
+    miConnect = new MIConnect();
 }
 
 
@@ -37,13 +45,15 @@ NodeGraph::NodeGraph(MainWindow *parent)
  */
 QList<Node *> NodeGraph::evaluateNode(Node *node)
 {
-    Node *vNode, *curNode;
+    Node *curNode;
+
+    evalStack << node;
+    visitStack << node;
 
     evalStack.clear();
     visitStack.clear();
 
-    vNode = node;
-    nodeStack << vNode;
+    nodeStack << node;
     curNode = node;
 
     while (nodeStack.length()) {
@@ -245,10 +255,205 @@ Edge* NodeGraph::addEdge(Edge *edge)
 }
 
 
+
+/*!
+ * \brief Removes edge from scene and deletes it.
+ *
+ * Detaches edge from source and destination nodes, removes edge object
+ * from DAG scene and deletes the edge object.
+ * \param edge Edge to be removed.
+ * @see Node::removeEdge()
+ */
+void NodeGraph::removeEdge(Edge *edge)
+{
+    edge->sourceNode()->removeEdge(edge);
+    edge->destNode()->removeEdge(edge);
+    removeItem(edge);
+    delete edge;
+}
+
+/*!
+ * \brief Removes node from nodegraph.
+ *
+ * Removes node from nodegraph and deletes it. Reconnects all edges to node
+ * that is higher in graph hierarchy. Deletes node Ops and callbacks. Op deletion is buggy!!!
+ * \param node Node to be removed.
+ */
+void NodeGraph::removeNode(Node *node)
+{
+    delete node->getCallback();
+
+    Edge *mE = node->getMainEdge();
+    Node *mD = 0;
+    if (mE) {
+        mD = mE->sourceNode();
+        if (mD) {
+        }
+    }
+
+    foreach (Edge *edge, node->edgesIn())
+    {
+        edge->disconnect();
+        removeItem(edge);
+    }
+
+    foreach (Edge *edge, node->edges())
+    {
+        if (edge->destNode() == node) {
+            removeItem(edge);
+        }
+    }
+
+    foreach (Edge *edge, node->edges())
+    {
+        if (edge->sourceNode() != 0) {
+            edge->disconnect();
+            edge->setSourceNode(mD);
+        }
+    }
+
+    QList<Node *> tempList;
+    foreach (Node* n, nodeList)
+    {
+        if (!tempList.contains(n) && n != node) tempList.append(n);
+    }
+    nodeList.clear();
+    nodeList = tempList;
+    removeItem(node);
+}
+
+/*!
+ * \brief Connects viewer to selected node.
+ *
+ * Viewer socket 'socket' gets connected to selected node 'node'. Socket part
+ * does not work at the moment.
+ * \param node Node to be connected
+ * \param socket Viewer socket that gets connected (not working)
+ */
+void NodeGraph::connectViewer(Node *node, int socket)
+{
+    if (!activeViewer)
+    {
+        foreach(Node* n, nodeList)
+        {
+            if (n->getClassType() == NODE_TYPE_VIEWER)
+            {
+                activeViewer = n;
+            }
+        }
+        if (!activeViewer)
+            return;
+    }
+    Edge *e = activeViewer->getMainEdge();
+    if (e->sourceNode())
+    {
+        e->sourceNode()->removeEdge(e);
+    }
+    e->setSourceNode(node);
+    evaluate();
+}
+
+/*!
+ * \brief Get active viewer node.
+ *
+ * This function returns active viewer node that is held in 'activeViewer'.
+ * \return Active viewer node.
+ * @see setActiveViewer()
+ */
+Node* NodeGraph::getActiveViewer()
+{
+    return activeViewer;
+}
+
+
+/*!
+ * \brief Sets node as active viewer.
+ *
+ * This function sets selected node as active viewer. Active viewer is held in 'activeViewer'.
+ * \param node Node to be set as viewer
+ * @see getActiveViewer()
+ * @see activeViewer
+ */
+void NodeGraph::setActiveViewer(Node *node)
+{
+    activeViewer = node;
+}
+
+
+/*!
+ * \brief Update viewer area
+ * Clear viewer area and set it's child to viewer table.
+ */
+void NodeGraph::updateViewer()
+{
+
+    miConnect->runCommand(QString("Close Window %1").arg(miConnect->getWindowID()));
+    myParent->logMessage("Parent to window...");
+    miConnect->parentToWindow(myParent->getViewer());
+    myParent->logMessage("Browse from... " + QString("_") + activeViewer->getHash());
+    miConnect->browseFromTable(QString("_") + activeViewer->getHash());
+    miConnect->setWindowID(QString(miConnect->evalCommand("WindowID(0)")).toInt());
+    miConnect->runCommand(QString("Close Table selection"));
+}
+
+
 /*!
  * \brief Evaluate node graph
  */
 void NodeGraph::evaluate()
 {
+    myParent->clearCommandList();
     myParent->logMessage("Evaluated graph!");
+    execute();
+    myParent->logMessage(myParent->getCommandList());
+    foreach(QString command, myParent->getCommandList())
+    {
+        miConnect->runCommand(command);
+    }
+
+    /*
+    myParent->logMessage("Parent to window...");
+    miConnect->parentToWindow(myParent->getViewer());
+    myParent->logMessage("Browse from... " + QString("_") + activeViewer->getHash());
+    miConnect->browseFromTable(QString("_") + activeViewer->getHash());
+    miConnect->setWindowID(QString(miConnect->evalCommand("WindowID(0)")).toInt());
+    miConnect->runCommand(QString("Close Table selection"));
+    */
+    updateViewer();
+}
+
+
+/*!
+ * \brief Node graph execution method.
+ *
+ * Calls the execute() function on last node in evaluation stack 'evalStack'.
+ * Usually it is the active viewer node.
+ * @see evaluate()
+ * @see Node::execute()
+ */
+void NodeGraph::execute()
+{
+    if (!activeViewer)
+    {
+        foreach(Node* n, nodeList)
+        {
+            if (n->getClassType() == NODE_TYPE_VIEWER)
+            {
+                activeViewer = n;
+            }
+        }
+        if (!activeViewer)
+            return;
+    }
+    if (!activeViewer)
+    {
+        myParent->logMessage("Why no active viewer!");
+        return;
+    }
+    evaluateNode(activeViewer);
+    myParent->logMessage("Evaluated active viewer!");
+    if (evalStack.count() > 1)
+    {
+        evalStack.last()->execute();
+    }
 }
