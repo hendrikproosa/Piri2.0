@@ -10,7 +10,9 @@ class MIConnect
 {
 public:
     MIConnect();
+    ~MIConnect();
     void createConnection(int background);
+    void destroyConnection();
     void runCommand(QString command);
     QString evalCommand(QString command);
     void browseFromTable(QString tablename);

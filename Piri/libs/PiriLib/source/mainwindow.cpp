@@ -49,6 +49,8 @@ MainWindow::MainWindow()
     //setWindowTitle("Piri v.02 - " + timeString);
     setWindowTitle("Piri v.02");
     qDebug() << "MainWindow initialized!";
+
+    triggerMenuByName("Viewer");
 }
 
 

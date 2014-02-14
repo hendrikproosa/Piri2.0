@@ -30,6 +30,7 @@ public:
     QList<Node *> evaluateNode(Node* node);
     void pushNodeEdgesToStack(Node *node);
     QList<Node *> reverseStack(QList<Node *> stack);
+    QString debugStack(QList<Node *> stack);
     int nodeVisited(Node* node);
 
     void setSelectedNode();

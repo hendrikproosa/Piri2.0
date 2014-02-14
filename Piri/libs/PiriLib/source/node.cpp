@@ -53,6 +53,7 @@ Node::Node(NodeGraph *nodeGraph, QString name, OpInterfaceMI *op)
  */
 void Node::execute()
 {
+    myParent->getParent()->logMessage("Execute node: " + myName);
     //if ((edges().count() == edgesOut().count()) || edgesIn().count() > 0)
     //{
         if (!isDisabled())
@@ -63,6 +64,8 @@ void Node::execute()
             {
                 e->sourceNode()->execute();
             }
+            //Op *op = dynamic_cast<Op*>(myOp);
+            //myParent->getParent()->logMessage(QString("value: %1").arg(op->getCallback()->getKnob("File")->value->toString()));
             myParent->getParent()->appendCommand(myOp->engine());
         } else {
             Op *op = dynamic_cast<Op*>(myOp);

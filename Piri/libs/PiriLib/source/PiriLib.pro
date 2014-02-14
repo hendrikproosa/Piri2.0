@@ -22,7 +22,8 @@ SOURCES += pirilib.cpp \
     op.cpp \
     edge.cpp \
     miconnect.cpp \
-    knobs.cpp
+    knobs.cpp \
+    searchdialog.cpp
 
 
 HEADERS += pirilib.h\
@@ -36,5 +37,6 @@ HEADERS += pirilib.h\
     op.h \
     edge.h \
     miconnect.h \
-    knobs.h
+    knobs.h \
+    searchdialog.h
 

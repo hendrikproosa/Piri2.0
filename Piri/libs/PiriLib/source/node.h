@@ -61,13 +61,11 @@ public:
 
 
 protected:
-
-    void setupInputs();
-
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    void setupInputs();
     QString myName; /*!< Node name. First set in Op description. */
     QString myDesc; /*!< Node description. Set in Op description. */
     QString myClass; /*!< Node class. Set in Op description. */

@@ -14,10 +14,6 @@ TEMPLATE = app
 SOURCES += main.cpp
 
 INCLUDEPATH = $$PWD/../libs/PiriLib/source
-#INCLUDEPATH = C:/Users/hendrik/Documents/GitHub/Piri2.0/Piri/libs/PiriLib/source
-
-#LIBS = -LC:/Users/hendrik/Documents/GitHub/Piri2.0/Piri/plugins
-LIBS =+ $$PWD
 
 win32: LIBS += -L$$PWD/../libs/PiriLib/libs/ -lPiriLib
 

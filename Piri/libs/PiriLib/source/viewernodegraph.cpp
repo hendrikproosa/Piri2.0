@@ -4,6 +4,8 @@
 #include "node.h"
 #include "edge.h"
 
+
+
 /*!
  * \brief Viewer into nodegraph DAG.
  *
@@ -27,6 +29,7 @@ ViewerNodeGraph::ViewerNodeGraph(NodeGraph *nodeGraph, MainWindow *parent)
     setContextMenuPolicy(Qt::DefaultContextMenu);
 
     scale(qreal(0.8), qreal(0.8));
+    //searchDialog = new SearchDialog(this);
 }
 
 /*!
@@ -148,11 +151,17 @@ void ViewerNodeGraph::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Control:
         setMode(DAG_MODE_BREAKEDGE);
         break;
+    case Qt::Key_Period:
+        myParent->triggerMenuByName("Dot");
+        break;
     case Qt::Key_D:
         disableSelected();
         break;
     case Qt::Key_M:
-
+        //searchDialog->hide();
+        break;
+    case Qt::Key_Tab:
+        //searchDialog->show();
         break;
     case Qt::Key_Delete:
         foreach (QGraphicsItem *i, scene()->selectedItems()) {

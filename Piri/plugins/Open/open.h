@@ -21,7 +21,7 @@ public:
     void knobs(KnobCallback *f);
     QString engine();
 
-protected:
+private:
     QString filename;
     int number;
 };

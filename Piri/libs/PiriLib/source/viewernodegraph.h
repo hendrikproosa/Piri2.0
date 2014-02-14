@@ -3,6 +3,7 @@
 
 #include <QGraphicsView>
 #include "pirilib.h"
+#include "searchdialog.h"
 
 class MainWindow;
 class NodeGraph;
@@ -47,6 +48,8 @@ private:
     QGraphicsLineItem *line; /*!< Graphical representation of line. Used in edge dragging? */
     QGraphicsRectItem *selectRect; /*!< Graphical representation of selection rectangle. */
     int onNode; /*!< Is mouse on node?. */
+
+    //SearchDialog* searchDialog;
 
 };
 

@@ -111,6 +111,7 @@ public:
 public slots:
     void updateValueFromDialog(QString s);
     void getFileName();
+    void updateHash(QString text);
 
 signals:
     void valueUpdated(QString fileName);

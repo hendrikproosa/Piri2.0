@@ -10,6 +10,15 @@ MIConnect::MIConnect()
 }
 
 /*!
+ * \brief MIConnect destructor.
+ */
+MIConnect::~MIConnect()
+{
+    destroyConnection();
+    windowID = 0;
+}
+
+/*!
  * \brief Creates connection to MapInfo instance.
  *
  * Parameter background sets if connection is to open session or
@@ -28,6 +37,15 @@ void MIConnect::createConnection(int background)
     } else {
         mapInfo->setControl(MId + "&");
     }
+}
+
+
+/*!
+ * \brief Destroys connection to MapInfo instance.
+ */
+void MIConnect::destroyConnection()
+{
+    mapInfo->clear();
 }
 
 /*!

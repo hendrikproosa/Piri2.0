@@ -29,6 +29,8 @@ NodeGraph::NodeGraph(MainWindow *parent)
     //visitStack = 0;
 
     miConnect = new MIConnect();
+
+
 }
 
 
@@ -110,6 +112,26 @@ QList<Node *> NodeGraph::reverseStack(QList<Node *> stack)
         tempStack << stack.takeLast();
     }
     return tempStack;
+}
+
+
+/*!
+ * \brief Creates list of nodes in stack.
+ *
+ * Not used?
+ * \param stack Stack which is debugged.
+ * \return QString with node names in stack.
+ */
+QString NodeGraph::debugStack(QList<Node *> stack)
+{
+    QString evalList;
+    if (stack.length() > 0) {
+        foreach (Node *node, stack) {
+            evalList += QString(node->getName()) + QString("\n");
+        }
+    } else {
+    }
+    return evalList;
 }
 
 
@@ -281,6 +303,8 @@ void NodeGraph::removeEdge(Edge *edge)
  */
 void NodeGraph::removeNode(Node *node)
 {
+    myParent->logMessage(QString("Deleting: %1").arg(node->getCallback()->getParent()->getName()));
+
     delete node->getCallback();
 
     Edge *mE = node->getMainEdge();
@@ -390,6 +414,16 @@ void NodeGraph::updateViewer()
     miConnect->runCommand(QString("Close Window %1").arg(miConnect->getWindowID()));
     myParent->logMessage("Parent to window...");
     miConnect->parentToWindow(myParent->getViewer());
+    int c = 0;
+    foreach (Edge *e, activeViewer->edgesIn())
+    {
+        if (!e->sourceNode())
+            c += 1;
+    }
+    if (c == activeViewer->edgesIn().count())
+    {
+        return;
+    }
     myParent->logMessage("Browse from... " + QString("_") + activeViewer->getHash());
     miConnect->browseFromTable(QString("_") + activeViewer->getHash());
     miConnect->setWindowID(QString(miConnect->evalCommand("WindowID(0)")).toInt());
@@ -404,21 +438,15 @@ void NodeGraph::evaluate()
 {
     myParent->clearCommandList();
     myParent->logMessage("Evaluated graph!");
+    myParent->logMessage("Commandlist: ");
+    myParent->logMessage(myParent->getCommandList());
+
     execute();
     myParent->logMessage(myParent->getCommandList());
     foreach(QString command, myParent->getCommandList())
     {
         miConnect->runCommand(command);
     }
-
-    /*
-    myParent->logMessage("Parent to window...");
-    miConnect->parentToWindow(myParent->getViewer());
-    myParent->logMessage("Browse from... " + QString("_") + activeViewer->getHash());
-    miConnect->browseFromTable(QString("_") + activeViewer->getHash());
-    miConnect->setWindowID(QString(miConnect->evalCommand("WindowID(0)")).toInt());
-    miConnect->runCommand(QString("Close Table selection"));
-    */
     updateViewer();
 }
 
@@ -433,13 +461,16 @@ void NodeGraph::evaluate()
  */
 void NodeGraph::execute()
 {
+    myParent->logMessage("Execute!");
     if (!activeViewer)
     {
+        myParent->logMessage("No active viewer!");
         foreach(Node* n, nodeList)
         {
             if (n->getClassType() == NODE_TYPE_VIEWER)
             {
                 activeViewer = n;
+                myParent->logMessage("Active viewer: " + activeViewer->getName());
             }
         }
         if (!activeViewer)
@@ -450,10 +481,24 @@ void NodeGraph::execute()
         myParent->logMessage("Why no active viewer!");
         return;
     }
+    int c = 0;
+    foreach (Edge *e, activeViewer->edgesIn())
+    {
+        if (!e->sourceNode())
+            c += 1;
+    }
+    if (c == activeViewer->edgesIn().count())
+    {
+        myParent->logMessage("Viewer has no inputs!");
+        return;
+    }
+
     evaluateNode(activeViewer);
     myParent->logMessage("Evaluated active viewer!");
+    myParent->logMessage(debugStack(evalStack));
     if (evalStack.count() > 1)
     {
+        myParent->logMessage("Evalstack last: " + evalStack.last()->getName());
         evalStack.last()->execute();
     }
 }

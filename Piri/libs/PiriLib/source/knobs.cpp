@@ -361,12 +361,14 @@ FileDialogKnob::FileDialogKnob(KnobCallback *f, QString* value) :
 
     QPushButton *dlgButton = new QPushButton();
     QLineEdit *nameknob = new QLineEdit();
+    nameknob->setText(*value);
 
     hLayout->addWidget(nameknob);
     hLayout->addWidget(dlgButton);
 
     QObject::connect(dlgButton, SIGNAL(clicked()), this, SLOT(getFileName()));
     QObject::connect(this, SIGNAL(valueUpdated(QString)), nameknob, SLOT(setText(QString)));
+    QObject::connect(this, SIGNAL(valueUpdated(QString)), this, SLOT(updateHash(QString)));
     QObject::connect(nameknob, SIGNAL(textChanged(QString)), f, SLOT(valueChanged()));
     updateHash();
 }
@@ -380,15 +382,20 @@ void FileDialogKnob::updateValueFromDialog(QString s)
 
 void FileDialogKnob::getFileName()
 {
-    QString fname = QFileDialog::getOpenFileName(this, tr("Open File"), "E:/");
+    QString fname = QFileDialog::getOpenFileName(this, tr("Open File"), "C:/");
     *_myValue = fname;
     emit valueUpdated(fname);
+}
+
+void FileDialogKnob::updateHash(QString text)
+{
+    _myHash = generateHash(text);
+
 }
 
 void FileDialogKnob::updateHash()
 {
     _myHash = generateHash(*_myValue);
-
 }
 
 QString FileDialogKnob::getHash()
