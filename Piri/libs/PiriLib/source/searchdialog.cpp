@@ -3,5 +3,7 @@
 SearchDialog::SearchDialog(QWidget *parent) :
     QWidget(parent)
 {
-    //resize(100, 25);
+
+    resize(100, 25);
+    show();
 }

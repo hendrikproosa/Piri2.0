@@ -96,9 +96,11 @@ void MIConnect::parentToWindow(QWidget* widget)
     QString cmd;
     int winHND;
     winHND = (int)widget->winId();
+    /*
     cmd.append("Set Next Document Parent ");
     cmd.append(QString("%1").arg(winHND));
     cmd.append(" Style 1");
+    */
     runCommand(cmd);
 }
 

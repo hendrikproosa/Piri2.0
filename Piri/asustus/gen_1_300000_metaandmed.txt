@@ -1,0 +1,110 @@
+Pealkiri
+Eesti haldus- ja asustusjaotuse generaliseeritud piirid mõõtkavas 1: 300 000, 1. jaanuar 2013
+
+Andmete kasutuspiirangud
+Andmed on mõeldud kasutamiseks üksnes 1 : 300 000 või sellele lähedases mõõtkavas. 
+Generaliseeritud piiride kasutamine mistahes juriidilisteks toiminguteks on keelatud, kuna nende asukoha täpsust on vastavalt generaliseerimise astmele oluliselt vähendatud. Andmeid võib  kasutada mistahes toodete ja tuletiste valmistamiseks ning avaldamiseks väljaannetes.
+
+Võtmesõnad
+Haldusüksused, asustusüksused, piirid, polügoon, generaliseerima, teemakaart, kartogramm
+
+Hind
+Andmete kasutamine on tasuta
+
+Geograafiline formaat
+Digitaalsed vektorandmed
+
+Ruumiandmete levitamise vorming
+ESRI Shapefile (.shp), MapInfo (.tab)
+
+Geograafiline ulatus
+Põhjas: 6618896 m
+Lõunas: 6377167 m
+Läänes: 369051 m
+Idas: 739159 m
+
+Projektsioon
+Lambert-EST 1997
+
+Aeg
+Algandmete avaldamise kuupäev: Maaamet, 02.01.2013
+Generaliseerimise kuupäev: Statistikaamet, 07.01.2012
+Generaliseeritud andmete avaldamise kuupäev: Statistikaamet, 10.10.2013
+Generaliseeritud andmete viimase kontrolli kuupäev: Statistikaamet, 08.10.2013
+
+Staatus
+Lõplik
+
+Uuendused
+Iga aasta I kvartalis avaldatakse selle aasta 1. jaanuari seisuga uued generaliseeritud Eesti haldus- ja asustusjaotuse piirid juhul kui haldus- ja asustusjaotuse piire või koode on eelmise aasta jooksul muudetud.
+
+Kasutatav keel
+Eesti keel
+
+Andmete kvaliteet ja vastavus
+Andmetes kasutatud haldus- ja asustusüksuste koodid, nimed ja tüübid vastavad 100%-liselt Eesti haldus- ja asustusüksuste klassifikaatori 2013. aasta 1. jaanuari seisule.
+Andmete asukohatäpsus vastab mõõtkavale 1: 300 000. Haldus- ja asustusüksuste polügoonid on suletud, nende vahel ei ole tühimikke ning nad ei kattu. Erinevate tasemete haldus- ja asustusüksuste piirid kattuvad. On moodustatud liitpolügoonid nende haldus- ja asustusüksuste kohta, mis koosnevad lahustükkidest.  
+Andmete generaliseerimisel on kasutatud ArcGIS Desktop tarkvaratoote ArcInfo töövahendit Simplify Polygon ning Bend Simplify algoritmi. Generaliseerimise aluseks on Maaameti avaldatud Eesti haldus- ja asustusjaotuse piiride andmed 2012. aasta 1. jaanuari seisuga.
+ 
+Failid
+shp-fail koosneb järgmistest failidest:
+     .shp – kujutise geomeetria fail
+     .shx – kujutise geomeetria indeksi fail
+     .prj – koordinaatsüsteemi info fail 
+     .dbf – atribuutandmete info fail
+     
+Tab-fail koosneb järgmistest failidest:
+     .tab – metainfo tabelandmete fail
+     .dat – atribuutandmete fail
+     .id – indeksfail
+     .map – kujutise geomeetria fail
+
+Failide struktuur
+Faili MAAKOND_1_300000 struktuur:
+     Välja nimi	Tüüp		Laius    Kirjeldus
+     FID		Object ID
+     Shape    	Geometry		Polügoon
+     MNIMI	String		50	Maakonna nimi
+     MKOOD	String		  4	Maakonna kood
+     
+Faili KOV_1_300000 struktuur:
+     Välja nimi	Tüüp		Laius    Kirjeldus
+     FID		Object ID
+     Shape    	Geometry		Polügoon
+     VNIMI	String		50	Omavalitsusüksuse nimi
+     VKOOD	String		  4	Omavalitsusüksuse kood
+     MNIMI	String		50	Maakonna nimi
+     MKOOD	String		  4	Maakonna kood
+     
+Faili ASUSTUS_1_300000 struktuur:
+     Välja nimi	Tüüp		Laius    Kirjeldus
+     FID		Object ID
+     Shape    	Geometry		Polügoon
+     KOOD	String		  4	Asustusüksuse kood
+     NIMI	String		50	Asustusüksuse nimi ja tüüp 
+     ANIMI	String		30	Asustusüksuse nimi
+     TYYP	String		  1	Asustusüksuse tüübi kood
+     VNIMI	String		50	Omavalitsusüksuse nimi
+     VKOOD	String		  4	Omavalitsusüksuse kood
+     MNIMI	String		50	Maakonna nimi
+     MKOOD	String		  4	Maakonna kood
+     
+Asustusüksuste tüübid
+3 – alev
+4 – linn, samal ajal nii haldusüksus kui ka asula
+5 – vallasisene linn
+6 – linnaosa
+7 – alevik
+8 – küla
+     
+Koostaja
+Statistikaamet, statistika levi osakond
+
+Kontaktandmed
+Statistikaamet
+statistika levi osakond
+Tatari 51
+15174 Tallinn 
+Telefon:  +372 625 9235 
+e-post: stat@stat.ee
+

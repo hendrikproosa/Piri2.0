@@ -3,7 +3,7 @@
 #include "nodegraph.h"
 #include "node.h"
 #include "edge.h"
-
+#include "searchdialog.h"
 
 
 /*!
@@ -29,7 +29,8 @@ ViewerNodeGraph::ViewerNodeGraph(NodeGraph *nodeGraph, MainWindow *parent)
     setContextMenuPolicy(Qt::DefaultContextMenu);
 
     scale(qreal(0.8), qreal(0.8));
-    //searchDialog = new SearchDialog(this);
+    SearchDialog *searchDialog = new SearchDialog();
+    myNodeGraph->addWidget(searchDialog);
 }
 
 /*!

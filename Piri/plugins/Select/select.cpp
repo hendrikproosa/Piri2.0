@@ -1,6 +1,7 @@
 #include "select.h"
 #include "node.h"
 #include "edge.h"
+#include "knobs.h"
 
 void Select::setup()
 {
@@ -18,7 +19,8 @@ QString Select::description()
 
 void Select::knobs(KnobCallback* f)
 {
-
+    setup();
+    String_knob(f, &queryString, "Query");
 }
 
 QString Select::engine()
@@ -26,6 +28,8 @@ QString Select::engine()
     if (!getInput(0))
         return " ";
     QString command;
-    command = "Select * from _" + getInput(0)->getHash() + " into _" + getHash();
+    //command = "Select * from _" + getInput(0)->getHash() + " into _" + getHash();
+    command = queryString;
+    command.replace(QString("input0"), QString("_" + getInput(0)->getHash()) + " into _" + getHash());
     return command;
 }

@@ -2,16 +2,12 @@
 #define SEARCHDIALOG_H
 
 #include <QWidget>
+#include "pirilib.h"
 
-class SearchDialog : public QWidget
+class PIRILIBSHARED_EXPORT SearchDialog : public QWidget
 {
-    Q_OBJECT
 public:
     SearchDialog(QWidget *parent = 0);
-    
-signals:
-    
-public slots:
     
 };
 

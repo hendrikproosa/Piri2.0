@@ -1,0 +1,107 @@
+Title
+Generalized boundaries of Estonian administrative and settlement division, 1 January 2013, scale 1: 300 000
+
+User constraints
+The generalized borders of Estonian administrative and settlement division could be used only in thematic mapping in scale 1: 300 000 or close.
+The generalized data do not constitute a determination of jurisdictional authority and they are not legal land descriptions. 
+
+Keywords
+Administrative units, settlement units, boundaries, polygon, generalize, thematic map, cartogram
+
+Fees
+The data are free of charge
+
+Geographic format
+Vector digital data
+
+GIS file format
+ESRI Shapefile (.shp), MapInfo (.tab) format
+
+Geographic extent
+Top: 6618896 m
+Bottom: 6377167 m
+Left: 369051 m
+Right: 739159 m
+
+Projection
+Lambert-Est 1997
+
+Temporal extent
+Date of publication of initial data: Estonian Land Board, 01.01.2013
+Date of generalization: Statistics Estonia, 07.01.2013
+Date of publication of generalized data: Statistics Estonia, 10.10.2013
+Date of last revision of generalized data: Statistics Estonia, 08.10.2013
+
+Status
+Complete
+
+Update
+If changes are made to the classification of Estonian administrative units and settlements, the new version of generalized data according to 1 January will be published in the 1st quarter of each year. 
+
+Data set language
+Estonian
+
+Data set quality
+Codes and names of administrative and settlement units correspond 100% to the classification of Estonian administrative units and settlements version 01.01.2013. The location corresponds to the scale 1: 300 000. The polygons of counties, local government units and settlements are tested for closure: a void does not exist between areas in the same layer; an area must not overlap another area from the same layer; the boundaries of different layer coincide. When settlement or administrative units were not adjacent, a multipart feature was created.
+ArcGIS Desktop software package ArcInfo tool “Simplify Polygon” algorithm “Bend Simplify” was used in generalization. The initial data for generalization are the borders of settlement units from 01.01.2012, published by Estonian Land Board.
+
+Structure of the files
+SHP file consists of the following files:
+.shp – the feature geometry file
+.shx – the index file of the feature geometry 
+.prj – the coordinate system information file
+.dbf – the attribute data file
+
+TAB file consists of the following files:
+.tab – the metadata file
+.dat – the attribute data file
+.id   –  the index file 
+.map – the feature geometry file
+
+File structure of MAAKOND_1_300000
+     FieldName	Type		Width	Description
+     FID		Object ID
+     Shape    	Geometry		Polygon
+     MNIMI	String		50	Name of county
+     MKOOD	String		  4	Code of county
+     
+File structure of KOV_1_300000
+FieldName	Type		Width	Description
+     FID		Object ID
+     Shape    	Geometry		Polygon
+     VNIMI	String		50	Name of government unit
+     VKOOD	String		  4	Code of government unit
+     MNIMI	String		50	Name of county
+MKOOD	String		  4	Code of county
+
+File structure of ASUSTUS_1_300000
+FieldName	Type	Width	Description
+     FID		Object ID
+     Shape    	Geometry		Polygon
+KOOD	String		  4	Code of settlement
+     NIMI	String		50	Name and type of settlement
+     ANIMI	String		30	Name of settlement
+     TYYP	String		  1	Code of settlement type
+     VNIMI	String		50	Name of government unit
+     VKOOD	String		  4	Code of government unit
+     MNIMI	String		50	Name of county
+     MKOOD	String		  4	Code of county
+
+Codes of settlement type
+3 – town
+4 – city, at the same time an administrative unit and a settlement
+5 – city without municipal status
+6 – urban region
+7 – small town
+8 – village
+
+Origin
+Statistics Estonia, Marketing and Dissemination Department
+
+Contact
+Statistics Estonia
+51 Tatari Str
+15174 Tallinn 
+Estonia
+Phone:  +372 625 9235
+e-mail: stat@stat.ee

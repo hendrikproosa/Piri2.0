@@ -26,6 +26,9 @@ protected:
     int rowTo;
     int colFrom;
     int colTo;
+
+private:
+    QString queryString;
 };
 
 #endif // SELECT_H

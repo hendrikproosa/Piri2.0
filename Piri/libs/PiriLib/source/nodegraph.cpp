@@ -29,8 +29,7 @@ NodeGraph::NodeGraph(MainWindow *parent)
     //visitStack = 0;
 
     miConnect = new MIConnect();
-
-
+    //addWidget(new QLineEdit("Tere!"));
 }
 
 

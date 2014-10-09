@@ -20,6 +20,7 @@ QString Viewer::engine()
 {
     QString command;
     command = QString("Select * From _%1 Into _%2 ").arg(getInput(0)->getHash()).arg(getHash());
+    //command = QString("Browse * From _%1 ").arg(getInput(0)->getHash());
 
     return command;
 }

@@ -3,11 +3,12 @@
 
 #include <QGraphicsView>
 #include "pirilib.h"
-#include "searchdialog.h"
+
 
 class MainWindow;
 class NodeGraph;
 class Edge;
+class SearchDialog;
 
 class PIRILIBSHARED_EXPORT ViewerNodeGraph : public QGraphicsView
 {
